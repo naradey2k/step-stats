@@ -37,6 +37,17 @@ def net_worth(df):
 	
 	return Net_Worth_Chart
 
+def month_exp(df):
+	df = df[df.Amount < 0] 
+	df.Amount = df.Amount*(-1) 
+	
+	Total_Monthly_Expenses_Table = df.groupby('Date')['Amount'].sum().reset_index(name = 'sum')
+	Total_Monthly_Expenses_Chart = px.bar(Total_Monthly_Expenses_Table, x = "Date", y = "sum", title = "Total Monthly Expenses")
+	Total_Monthly_Expenses_Chart.update_yaxes(title = 'Expenses (Tenge)', visible = True, showticklabels = True)
+	Total_Monthly_Expenses_Chart.update_xaxes(title = 'Date', visible = True, showticklabels = True)
+	
+	return Total_Monthly_Expenses_Chart
+
 def main():
 	st.title('MMM Statistics')
 	st.markdown('Сайт создан для анализа MMM приложения')
@@ -65,8 +76,8 @@ def main():
 			st.header('Overall Time')
 			st.plotly_chart(net_worth(df))
 			
-# 		with st.beta_expander('Month Expenses'):
-# 			st.plotly_chart(month_exp(df))
+		with st.beta_expander('Month Expenses'):
+			st.plotly_chart(month_exp(df))
 			
 if __name__ == '__main__':
 	main()
