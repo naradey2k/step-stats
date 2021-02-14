@@ -20,7 +20,7 @@ def load_data(data):
 	return file_contents 
 
 def net_worth(df):
-	net_worth = df.groupby('Date')['Price'].sum().reset_index(name='sum')
+	net_worth = df.groupby('Date')['Amount'].sum().reset_index(name='sum')
 	net_worth['cumulative sum'] = net_worth['sum'].cumsum()
 
 	net_worth = go.Figure(data=go.Scatter(x=net_worth["Date"], y=net_worth["cumulative sum"]))
@@ -35,16 +35,15 @@ def net_worth(df):
 
 	net_worth.show()
 
-def month_exp():
-	df = df[df.Amount < 0] 
-	df.Amount = df.amount*(-1) 
+def month_exp(df):
+	month_exps = df.resample('M').sum()
+	fig, ax = plt.subplots()
 
-	Total_Monthly_Expenses_Table = df.groupby('Date')['amount'].sum().reset_index(name='sum')
+	month_exps.plot(kind='barh', ax=ax, figsize= (17,6))
+	ax.set_xlabel('Amount (Tenge)', size=20)
+	ax.set_ylabel('Category', size=20);		
 
-	Total_Monthly_Expenses_Chart = px.bar(Total_Monthly_Expenses_Table, x = "year_month", y = "sum")
-	Total_Monthly_Expenses_Chart.update_yaxes(title = 'Expenses (Tenge)', visible = True, showticklabels = True)
-	Total_Monthly_Expenses_Chart.update_xaxes(title = 'Date', visible = True, showticklabels = True)
-	Total_Monthly_Expenses_Chart.show()
+	return fig
 
 def main():
 	st.title('MMM Statistics')
