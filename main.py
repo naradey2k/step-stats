@@ -24,20 +24,18 @@ def net_worth(df):
 	Net_Worth_Table['cumulative sum'] = Net_Worth_Table['sum'].cumsum()
 	Net_Worth_Chart = go.Figure(
 			data = go.Scatter(x = Net_Worth_Table["Date"], y = Net_Worth_Table["cumulative sum"]),
-			layout = go.Layout(
-					title = go.layout.Title(text = "Net Worth Over Time")
-					)
 			)
 	
 	Net_Worth_Chart.update_layout(
 		xaxis_title = "Date",
-		yaxis_title = "Net Worth (£)",
+		yaxis_title = "Net Worth (Tenge)",
 		)
+	
 	Net_Worth_Chart.update_xaxes(
 		tickangle = 45
 		)
 	
-	Net_Worth_Chart.show()
+	return Net_Worth_Chart
 
 def main():
 	st.title('MMM Statistics')
