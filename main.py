@@ -59,7 +59,7 @@ def main():
 
 		data = load_data(raw_data)
 
-		df = pd.DataFrame(raw_data, columns=['Date', 'Category', 'Amount'])
+		df = pd.DataFrame(data, columns=['Date', 'Category', 'Amount'])
 
 		with st.beta_expander('Net Worth'):
 			st.header('Overall Time')
