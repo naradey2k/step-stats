@@ -19,19 +19,16 @@ def load_data(data):
 	return file_contents 
 
 def net_worth(df):
-	net_worth = df.groupby('Date')['Amount'].sum().reset_index(name='sum')
+	net_worth = df.groupby('Date')['Price'].sum().reset_index(name='sum')
 	net_worth['cumulative sum'] = net_worth['sum'].cumsum()
 
-	net_worth = go.Figure(data=go.Scatter(x=net_worth["Date"], y = net_worth["cumulative sum"]),
-    							layout=go.Layout(title=go.layout.Title(text="Net Worth Over Time")
-    							)
-    						)
+	net_worth = go.Figure(data=go.Scatter(x=net_worth["Date"], y=net_worth["cumulative sum"]))
 
 	net_worth.update_layout(
-    	xaxis_title="Date",
-    	yaxis_title="Net Worth (Tenge)",
-    	hovermode='x unified'
-    )
+		xaxis_title="Date",
+		yaxis_title="Net Worth (Tenge)",
+		hovermode='x unified'
+	)
 
 	net_worth.update_xaxes(tickangle=45)
 
