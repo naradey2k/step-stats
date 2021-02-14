@@ -1,9 +1,10 @@
 import streamlit as st
 import pandas as pd
-
-from datetime import datetime             
 import plotly.express as px              
 import plotly.graph_objects as go  
+
+from io import StringIO
+from datetime import datetime             
 
 @st.cache(persist=True, allow_output_mutation=True)
 def load_data(uploaded_file):        
@@ -52,7 +53,13 @@ def main():
 	st.sidebar.markdown('For STEP 😊')
 
 	if uploaded_file is not None:
-		raw_data = load_data(uploaded_file)
+		bytes_data = uploaded_file.read()
+		
+		stringio = StringIO(bytes_data.decode('utf-8'))
+		
+		raw_data = stringio.read()
+
+		data = load_data(raw_data)
 
 		df = pd.DataFrame(raw_data, columns=['Date', 'Category', 'Amount'])
 
