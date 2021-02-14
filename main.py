@@ -19,7 +19,7 @@ def load_data(data):
 	return file_contents 
 
 def net_worth(df):
-	net_worth = df.groupby('Date')['Price'].sum().reset_index(name='sum')
+	net_worth = df.groupby('Date')['Amount'].sum().reset_index(name='sum')
 	net_worth['cumulative sum'] = net_worth['sum'].cumsum()
 
 	net_worth = go.Figure(data=go.Scatter(x=net_worth["Date"], y=net_worth["cumulative sum"]))
