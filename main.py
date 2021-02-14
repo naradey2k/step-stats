@@ -3,6 +3,7 @@ import pandas as pd
 import plotly.express as px              
 import plotly.graph_objects as go  
 
+from datetime import datetime
 from io import StringIO
 from datetime import datetime             
 
@@ -14,7 +15,7 @@ def load_data(data):
 	for each in data:
 		splitted = each.split(', ')
 
-		file_contents.append([splitted[0], splitted[1], splitted[2].split()[0]])
+		file_contents.append([datetime.strptime(splitted[0], '%d/%m/%Y'), splitted[1], splitted[2].split()[0]])
 
 	return file_contents 
 
