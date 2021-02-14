@@ -1,21 +1,23 @@
 import streamlit as st
 import pandas as pd
-import csv
 
 from datetime import datetime             
 import plotly.express as px              
-import plotly.graph_objects as go   
+import plotly.graph_objects as go  
 
 @st.cache(persist=True, allow_output_mutation=True)
 def load_data(uploaded_file):        
-	reader = csv.reader(uploaded_file, delimiter='|')
 	file_contents = []
-        
-	for each in reader:
-		if len(each) > 0:
-			file_contents.append(each[0])		
 
-	return file_contents
+	with open(uploaded_file, 'r') as file:
+		lines = file.readlines()
+        
+		for line in lines:
+			splitted = line.split(', ')
+
+			file_contents.append([splitted[0], splitted[1], splitted[2].split()[0]])
+
+	return file_contents 
 
 def net_worth(df):
 	net_worth = df.groupby('Date')['Price'].sum().reset_index(name='sum')
@@ -45,12 +47,14 @@ def main():
 	st.sidebar.text('2) File -> Export')
 	st.sidebar.text('3) Загрузите сюда')
 
-	uploaded_file = st.sidebar.file_uploader("", type=['csv'])
+	uploaded_file = st.sidebar.file_uploader("", type=['txt'])
 
 	st.sidebar.markdown('For STEP 😊')
 
 	if uploaded_file is not None:
-		df = pd.read_csv(uploaded_file, sep='|')
+		raw_data = load_data(uploaded_file)
+
+		df = pd.DataFrame(raw_data, columns=['Date', 'Category', 'Amount'])
 
 		with st.beta_expander('Net Worth'):
 			st.header('Overall Time')
