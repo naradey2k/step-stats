@@ -69,9 +69,9 @@ def main():
 
 		df = pd.DataFrame(data, columns=['Date', 'Category', 'Amount'])
 
-		with st.beta_expander('Net Worth'):
-			st.header('Overall Time')
-			st.plotly_chart(net_worth(df))
+# 		with st.beta_expander('Net Worth'):
+# 			st.header('Overall Time')
+# 			st.plotly_chart(net_worth(df))
 			
 		with st.beta_expander('Month Expenses'):
 			st.plotly_chart(month_exp(df))
