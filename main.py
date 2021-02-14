@@ -6,10 +6,10 @@ import plotly.express as px
 import plotly.graph_objects as go   
 
 def net_worth(df):
-	net_worth = df.groupby('date')['amount'].sum().reset_index(name='sum')
+	net_worth = df.groupby('Date')['Price'].sum().reset_index(name='sum')
 	net_worth['cumulative sum'] = net_worth['sum'].cumsum()
 
-	net_worth = go.Figure(data=go.Scatter(x=net_worth["year_month"], y = net_worth["cumulative sum"]),
+	net_worth = go.Figure(data=go.Scatter(x=net_worth["Date"], y = net_worth["cumulative sum"]),
     							layout=go.Layout(title=go.layout.Title(text="Net Worth Over Time")
     							)
     						)
@@ -35,8 +35,7 @@ def main():
 
 	uploaded_file = st.sidebar.file_uploader("", type=['csv'])
 
-	st.sidebar.markdown('Dont worry your data is not stored!')
-	st.sidebar.markdown('for STEP 😊')
+	st.sidebar.markdown('For STEP 😊')
 
 	if uploaded_file is not None:
 		df = pd.read_csv(uploaded_file)
