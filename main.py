@@ -7,16 +7,14 @@ from io import StringIO
 from datetime import datetime             
 
 @st.cache(persist=True, allow_output_mutation=True)
-def load_data(uploaded_file):        
+def load_data(data):        
 	file_contents = []
-
-	with open(uploaded_file, 'r') as file:
-		lines = file.readlines()
+	data = data.split('\r\n')
         
-		for line in lines:
-			splitted = line.split(', ')
-
-			file_contents.append([splitted[0], splitted[1], splitted[2].split()[0]])
+	for each in data:
+		splitted = line.split(', ')
+s
+		file_contents.append([splitted[0], splitted[1], splitted[2].split()[0]])
 
 	return file_contents 
 
