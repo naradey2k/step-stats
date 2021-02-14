@@ -13,7 +13,7 @@ def load_data(data):
         
 	for each in data:
 		splitted = line.split(', ')
-s
+
 		file_contents.append([splitted[0], splitted[1], splitted[2].split()[0]])
 
 	return file_contents 
