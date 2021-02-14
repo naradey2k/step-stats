@@ -90,7 +90,7 @@ def main():
 			st.plotly_chart(month_exp(df))
 		
 		with st.beta_expander('Month Incomes'):
-			st.plotly_chart(month_exp(df))
+			st.plotly_chart(month_inc(df))
 			
 if __name__ == '__main__':
 	main()
