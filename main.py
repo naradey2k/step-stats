@@ -20,20 +20,31 @@ def load_data(data):
 	return file_contents 
 
 def net_worth(df):
-	net_worth = df.groupby('Date')['Amount'].sum().reset_index(name='sum')
+	net_worth = df.groupby('Date')['Price'].sum().reset_index(name='sum')
 	net_worth['cumulative sum'] = net_worth['sum'].cumsum()
 
 	net_worth = go.Figure(data=go.Scatter(x=net_worth["Date"], y=net_worth["cumulative sum"]))
 
 	net_worth.update_layout(
-		xaxis_title="Date",
-		yaxis_title="Net Worth (Tenge)",
-		hovermode='x unified'
-	)
+    	xaxis_title="Date",
+    	yaxis_title="Net Worth (Tenge)",
+    	hovermode='x unified'
+    )
 
 	net_worth.update_xaxes(tickangle=45)
 
 	net_worth.show()
+
+def month_exp():
+	df = df[df.Amount < 0] 
+	df.Amount = df.amount*(-1) 
+
+	Total_Monthly_Expenses_Table = df.groupby('Date')['amount'].sum().reset_index(name='sum')
+
+	Total_Monthly_Expenses_Chart = px.bar(Total_Monthly_Expenses_Table, x = "year_month", y = "sum")
+	Total_Monthly_Expenses_Chart.update_yaxes(title = 'Expenses (Tenge)', visible = True, showticklabels = True)
+	Total_Monthly_Expenses_Chart.update_xaxes(title = 'Date', visible = True, showticklabels = True)
+	Total_Monthly_Expenses_Chart.show()
 
 def main():
 	st.title('MMM Statistics')
@@ -63,15 +74,8 @@ def main():
 			st.header('Overall Time')
 			st.plotly_chart(net_worth(df))
 			
-		with st.beta_expander('Облако слов'):			
-			word_cloud = create_wc(texts, form)
-
-			fig, ax = plt.subplots()
-
-			ax.imshow(word_cloud, interpolation='bilinear')
-			ax.axis("off")
-
-			st.pyplot(fig)
+		with st.beta_expander('Month Expenses'):			
+			
 
 
 if __name__ == '__main__':
