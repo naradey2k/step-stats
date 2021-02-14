@@ -20,30 +20,24 @@ def load_data(data):
 	return file_contents 
 
 def net_worth(df):
-	net_worth = df.groupby('Date')['Amount'].sum().reset_index(name='sum')
-	net_worth['cumulative sum'] = net_worth['sum'].cumsum()
-
-	net_worth = go.Figure(data=go.Scatter(x=net_worth["Date"], y=net_worth["cumulative sum"]))
-
-	net_worth.update_layout(
-    	xaxis_title="Date",
-    	yaxis_title="Net Worth (Tenge)",
-    	hovermode='x unified'
-    )
-
-	net_worth.update_xaxes(tickangle=45)
-
-	net_worth.show()
-
-def month_exp(df):
-	month_exps = df.resample('M').sum()
-	fig, ax = plt.subplots()
-
-	month_exps.plot(kind='barh', ax=ax, figsize= (17,6))
-	ax.set_xlabel('Amount (Tenge)', size=20)
-	ax.set_ylabel('Category', size=20);		
-
-	return fig
+	Net_Worth_Table = df.groupby('Date')['Amount'].sum().reset_index(name ='sum')
+	Net_Worth_Table['cumulative sum'] = Net_Worth_Table['sum'].cumsum()
+	Net_Worth_Chart = go.Figure(
+			data = go.Scatter(x = Net_Worth_Table["Date"], y = Net_Worth_Table["cumulative sum"]),
+			layout = go.Layout(
+					title = go.layout.Title(text = "Net Worth Over Time")
+					)
+			)
+	
+	Net_Worth_Chart.update_layout(
+		xaxis_title = "Date",
+		yaxis_title = "Net Worth (£)",
+		)
+	Net_Worth_Chart.update_xaxes(
+		tickangle = 45
+		)
+	
+	Net_Worth_Chart.show()
 
 def main():
 	st.title('MMM Statistics')
@@ -69,12 +63,12 @@ def main():
 
 		df = pd.DataFrame(data, columns=['Date', 'Category', 'Amount'])
 
-# 		with st.beta_expander('Net Worth'):
-# 			st.header('Overall Time')
-# 			st.plotly_chart(net_worth(df))
+		with st.beta_expander('Net Worth'):
+			st.header('Overall Time')
+			st.plotly_chart(net_worth(df))
 			
-		with st.beta_expander('Month Expenses'):
-			st.plotly_chart(month_exp(df))
+# 		with st.beta_expander('Month Expenses'):
+# 			st.plotly_chart(month_exp(df))
 			
 if __name__ == '__main__':
 	main()
